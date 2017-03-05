@@ -1,7 +1,9 @@
 package com.example.tmoon.scs;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // TODO: Replace this when the Settings Activity is done
-        shooters[0] = new Shooter("Tyler");
         shooters[0] = new Shooter("Tyler");
         shooters[1] = new Shooter("Dad");
         shooters[2] = new Shooter("Granddad");
@@ -85,11 +87,32 @@ public class MainActivity extends AppCompatActivity {
     public void nextStationButtonPressed(MenuItem item){
         stations.incrementStationNumber();
         stationCounter.setText(Integer.toString(stations.getStationNumber()));
-        hitCounter.setText(Integer.toString(shooters[shooterIndex].incrementHits(stations.getStationNumber())));
+        hitCounter.setText(Integer.toString(shooters[shooterIndex].getHits()[stations.getStationNumber()]));
     }
 
     public void nextRoundButtonPressed(MenuItem item){
-        roundNumber++;
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm")
+                .setMessage("Do you want to go on to the next round?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes,new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(MainActivity.this, "New Round!", Toast.LENGTH_SHORT).show();
+                        roundNumber++;
+                        shooterIndex = 0;
+                        // TODO: Replace this when the Settings Activity is done
+                        shooters[0] = new Shooter("Tyler");
+                        shooters[1] = new Shooter("Dad");
+                        shooters[2] = new Shooter("Granddad");
+                        shooters[3] = new Shooter("Dalton");
+
+                        stations.setStationNumber(0);
+
+                        hitCounter.setText("0");
+                        stationCounter.setText("0");
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     /*
