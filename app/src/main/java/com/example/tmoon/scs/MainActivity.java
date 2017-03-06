@@ -38,27 +38,52 @@ public class MainActivity extends AppCompatActivity {
     TextView hitCounter;
     TextView stationCounter;
 
+    TextView tblShooter1,tblShooter2, tblShooter3, tblShooter4;
+    TextView tblShooter1Total, tblShooter2Total, tblShooter3Total, tblShooter4Total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set up the shooters array for each shooter
         // TODO: Replace this when the Settings Activity is done
         shooters[0] = new Shooter("Tyler");
         shooters[1] = new Shooter("Dad");
         shooters[2] = new Shooter("Granddad");
         shooters[3] = new Shooter("Dalton");
 
+        // Initialize the name label with the first shooters name
         shooterName = (TextView)findViewById(R.id.textView2);
         shooterName.setText(shooters[shooterIndex].getName());
 
-
+        // Initialize the hit counter
         hitCounter = (TextView)findViewById(R.id.hitCounter);
         //TODO: Place this into a method so it doesn't have to be repeated so much
         hitCounter.setText(Integer.toString(shooters[shooterIndex].getHits()[stations.getStationNumber()]));
 
+        // Initialize the station label
         stationCounter = (TextView)findViewById(R.id.stationNumber);
         stationCounter.setText(Integer.toString(stations.getStationNumber()));
+
+        // Total table information
+        tblShooter1 = (TextView)findViewById(R.id.tblShooter1);
+        tblShooter1.setText(shooters[0].getName());
+        tblShooter2 = (TextView)findViewById(R.id.tblShooter2);
+        tblShooter2.setText(shooters[1].getName());
+        tblShooter3 = (TextView)findViewById(R.id.tblShooter3);
+        tblShooter3.setText(shooters[2].getName());
+        tblShooter4 = (TextView)findViewById(R.id.tblShooter4);
+        tblShooter4.setText(shooters[3].getName());
+
+        tblShooter1Total = (TextView)findViewById(R.id.tblShooter1Total);
+        tblShooter1Total.setText("0");
+        tblShooter2Total = (TextView)findViewById(R.id.tblShooter2Total);
+        tblShooter2Total.setText("0");
+        tblShooter3Total = (TextView)findViewById(R.id.tblShooter3Total);
+        tblShooter3Total.setText("0");
+        tblShooter4Total = (TextView)findViewById(R.id.tblShooter4Total);
+        tblShooter4Total.setText("0");
     }
 
     @Override
@@ -121,18 +146,26 @@ public class MainActivity extends AppCompatActivity {
      * name.
      */
     public void nextShooterButtonPressed(View view){
+        // Save the data to the Firebase database
         // TODO: Possibly dont save every time this is pressed if it slows it down or something
         saveData();
 
+        // Increment the index of the shooter and if it is greater than the number of shooters then
+        // go back to the beginning
         incrementShooterIndex();
+
+        // Set the new shooters name
         shooterName.setText(shooters[shooterIndex].getName());
-        hitCounter.setText(Integer.toString(shooters[shooterIndex].getHits()[stations.getStationNumber()]));// Reset the hit counter for the new shooter
 
+        // Set the hit counter
+        hitCounter.setText(Integer.toString(shooters[shooterIndex].getHits()[stations.getStationNumber()]));
 
-
-
+        // Set the total for that shooter
+        setShooterTotal();
     }
-
+    /*
+     * Save the station hits and update the total in the Firebase database.
+     */
     private void saveData(){
         try {
 
@@ -141,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
             myRef.child(shooters[shooterIndex].getName())
                     .child("Station " + stations.getStationNumber())
                     .child("Hits").setValue(shooters[shooterIndex].getHits()[stations.getStationNumber()]);
+
+            DatabaseReference totalRef = database.getReference("Round " + Integer.toString(roundNumber));
+            myRef.child(shooters[shooterIndex].getName()).child("Total").setValue(shooters[shooterIndex].totalHits());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -159,6 +195,23 @@ public class MainActivity extends AppCompatActivity {
         }else{
             System.out.println("Returning counter to 0");
             shooterIndex = 0;
+        }
+    }
+
+    private void setShooterTotal(){
+        switch(shooterIndex){
+            case 0:
+                tblShooter1Total.setText(Integer.toString(shooters[shooterIndex].totalHits()));
+                break;
+            case 1:
+                tblShooter2Total.setText(Integer.toString(shooters[shooterIndex].totalHits()));
+                break;
+            case 2:
+                tblShooter3Total.setText(Integer.toString(shooters[shooterIndex].totalHits()));
+                break;
+            case 3:
+                tblShooter4Total.setText(Integer.toString(shooters[shooterIndex].totalHits()));
+                break;
         }
     }
 }

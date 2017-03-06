@@ -19,7 +19,7 @@ public class Stations {
         this.stationNumber = stationNumber;
     }
 
-    public void incrementStationNumber(){
+    public void incrementStationNumber() {
         this.stationNumber++;
     }
 

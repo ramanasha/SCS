@@ -29,6 +29,14 @@ public class Shooter {
         this.hits = hits;
     }
 
+    public int totalHits(){
+        int returnValue = 0;
+        for(int i=0; i < hits.length; i++){
+            returnValue += hits[i];
+        }
+        return returnValue;
+    }
+
     /*
      * Add one to the hits array at the parameter index
      */
