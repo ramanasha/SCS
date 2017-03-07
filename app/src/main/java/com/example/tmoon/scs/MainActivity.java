@@ -146,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
      * name.
      */
     public void nextShooterButtonPressed(View view){
+        // Set the total for that shooter
+        setShooterTotal();
+
         // Save the data to the Firebase database
         // TODO: Possibly dont save every time this is pressed if it slows it down or something
         saveData();
@@ -160,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
         // Set the hit counter
         hitCounter.setText(Integer.toString(shooters[shooterIndex].getHits()[stations.getStationNumber()]));
 
-        // Set the total for that shooter
-        setShooterTotal();
+
     }
     /*
      * Save the station hits and update the total in the Firebase database.
