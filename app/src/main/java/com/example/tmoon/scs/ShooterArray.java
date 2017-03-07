@@ -55,6 +55,10 @@ public class ShooterArray {
         return this.shooterIndex;
     }
 
+    public void setShooterIndex(int newIndex){
+        this.shooterIndex = newIndex;
+    }
+
     public void incrementHitNumber(int stationNumber){
         System.out.println("Incrementing Hit for Station Number: " + stationNumber + " for shooter " + this.shooters[shooterIndex].getName());
         this.shooters[shooterIndex].incrementHits(stationNumber);

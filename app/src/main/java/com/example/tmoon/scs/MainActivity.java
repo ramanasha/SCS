@@ -28,7 +28,6 @@ import java.io.PrintWriter;
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
     ShooterArray shooters = new ShooterArray(4);
-    int shooterIndex = 0;
 
     int roundNumber = 0;
 
@@ -125,13 +124,20 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Toast.makeText(MainActivity.this, "New Round!", Toast.LENGTH_SHORT).show();
                         roundNumber++;
-                        shooterIndex = 0;
+                        shooters.setShooterIndex(0);
                         // TODO: Replace this when the Settings Activity is done
 
                         shooters.setShooter(0,"Tyler");
                         shooters.setShooter(1,"Dad");
                         shooters.setShooter(2,"Granddad");
                         shooters.setShooter(3,"Dalton");
+
+
+                        tblShooter1Total.setText("0");
+                        tblShooter2Total.setText("0");
+                        tblShooter3Total.setText("0");
+                        tblShooter4Total.setText("0");
+
 
                         stations.setStationNumber(0);
 
