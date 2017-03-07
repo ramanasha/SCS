@@ -15,6 +15,10 @@ public class Stations {
         return stationNumber;
     }
 
+    public String getStationNumberString(){
+        return Integer.toString(stationNumber);
+    }
+
     public void setStationNumber(int stationNumber) {
         this.stationNumber = stationNumber;
     }
