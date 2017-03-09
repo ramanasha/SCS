@@ -12,14 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tmoon.scs.DAO.FirebaseDAO;
+import com.example.tmoon.scs.Enums.CourseNames;
+import com.example.tmoon.scs.Models.Course;
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
-    ShooterArray shooters = new ShooterArray(4);
+   // ShooterArray shooters = new ShooterArray(4);
 
     int roundNumber = 0;
 
-    Stations stations = new Stations(0);
+   // Stations stations = new Stations(0);
 
     TextView shooterName;
     TextView hitCounter;
@@ -31,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //TODO: This is just testing stuff
+        // Testing Course
+        Course C = new Course(CourseNames.YELLOW);
+
+
+        /*super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Set up the shooters array for each shooter
@@ -72,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         tblShooter3Total.setText("0");
         tblShooter4Total = (TextView)findViewById(R.id.tblShooter4Total);
         tblShooter4Total.setText("0");
+        */
     }
 
     @Override
@@ -86,24 +97,25 @@ public class MainActivity extends AppCompatActivity {
      * current shooter at the current station number index.
      */
     public void shooterHitPressed(View view){
-        shooters.incrementHitNumber(stations.getStationNumber());
+       /* shooters.incrementHitNumber(stations.getStationNumber());
         hitCounter.setText(shooters.getHitNumber(stations.getStationNumber()));
         // Increment the number of hits at the index stationNumber and set the counter text view
         // to the incremented value
-
+*/
     }
     /*
      * This method is fired when the Next Stations button is pressed. It increments the station
      * counter and updates the text fields
      */
     public void nextStationButtonPressed(MenuItem item){
-        stations.incrementStationNumber();
+       /* stations.incrementStationNumber();
         stationCounter.setText(stations.getStationNumberString());
         hitCounter.setText(shooters.getHitNumber(stations.getStationNumber()));
+   */
     }
 
     public void nextRoundButtonPressed(MenuItem item){
-        new AlertDialog.Builder(this)
+       /* new AlertDialog.Builder(this)
                 .setTitle("Confirm")
                 .setMessage("Do you want to go on to the next round?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -133,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         stationCounter.setText("0");
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
+    */
     }
 
     /*
@@ -140,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
      * index counter and then sets the text of the shooterName text view to the next shooters
      * name.
      */
+    /*
     public void nextShooterButtonPressed(View view){
         FirebaseDAO fDAO = new FirebaseDAO();
         fDAO.setRoundReference(Integer.toString(roundNumber));
@@ -181,5 +195,5 @@ public class MainActivity extends AppCompatActivity {
                 tblShooter4Total.setText(totalNumber);
                 break;
         }
-    }
+    }*/
 }

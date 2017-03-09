@@ -1,0 +1,167 @@
+
+{
+  "RED": {
+    "Station1": {
+      "Shot1": "G",
+      "Shot2": "G",
+      "Shot3": "G",
+      "Shot4": "G",
+      "Shot5": "G"
+    },
+    "Station2": {},
+    "Station3": {
+      "Shot1": "H",
+      "Shot2": "D",
+      "Shot3": "H",
+      "Shot4": "D",
+      "Shot5": "H"
+    },
+    "Station4": {},
+    "Station5": {
+      "Shot1": "C",
+      "Shot2": "C",
+      "Shot3": "J",
+      "Shot4": "C",
+      "Shot5": "H"
+    },
+    "Station6": {
+      "Shot1": "D",
+      "Shot2": "A",
+      "Shot3": "B",
+      "Shot4": "J",
+      "Shot5": "D"
+    },
+    "Station7": {
+      "Shot1": "J",
+      "Shot2": "H",
+      "Shot3": "D",
+      "Shot4": "A",
+      "Shot5": "B"
+    },
+    "Station8": {},
+    "Station9": {
+      "Shot1": "H",
+      "Shot2": "J",
+      "Shot3": "D",
+      "Shot4": "A",
+      "Shot5": "J"
+    },
+    "Station10": {
+      "Shot1": "H",
+      "Shot2": "J",
+      "Shot3": "D",
+      "Shot4": "H",
+      "Shot5": "D"
+    },
+    "Station11": {},
+    "Station12": {
+      "Shot1": "A",
+      "Shot2": "D",
+      "Shot3": "A",
+      "Shot4": "A",
+      "Shot5": "B"
+    },
+    "Station13": {
+      "Shot1": "F",
+      "Shot2": "F",
+      "Shot3": "F",
+      "Shot4": "F",
+      "Shot5": "F"
+    },
+    "Station14": {
+      "Shot1": "E",
+      "Shot2": "E",
+      "Shot3": "E",
+      "Shot4": "E",
+      "Shot5": "E"
+    }
+  },
+  "YELLOW": {
+    "Station1": {},
+    "Station2": {},
+    "Station3": {
+      "Shot1": "D",
+      "Shot2": "D",
+      "Shot3": "H",
+      "Shot4": "D",
+      "Shot5": "H"
+    },
+    "Station4": {
+      "Shot1": "C",
+      "Shot2": "C",
+      "Shot3": "J",
+      "Shot4": "C",
+      "Shot5": "J"
+    },
+    "Station5": {
+      "Shot1": "C",
+      "Shot2": "C",
+      "Shot3": "H",
+      "Shot4": "C",
+      "Shot5": "H"
+    },
+    "Station6": {
+      "Shot1": "J",
+      "Shot2": "J",
+      "Shot3": "H",
+      "Shot4": "J",
+      "Shot5": "H"
+    },
+    "Station7": {
+      "Shot1": "D",
+      "Shot2": "H",
+      "Shot3": "D",
+      "Shot4": "H",
+      "Shot5": "D"
+    },
+    "Station8": {
+      "Shot1": "J",
+      "Shot2": "J",
+      "Shot3": "H",
+      "Shot4": "J",
+      "Shot5": "H"
+    },
+    "Station9": {
+      "Shot1": "H",
+      "Shot2": "J",
+      "Shot3": "D",
+      "Shot4": "A",
+      "Shot5": "J"
+    },
+    "Station10": {
+      "Shot1": "J",
+      "Shot2": "J",
+      "Shot3": "D",
+      "Shot4": "J",
+      "Shot5": "D"
+    },
+    "Station11": {
+      "Shot1": "D",
+      "Shot2": "D",
+      "Shot3": "H",
+      "Shot4": "D",
+      "Shot5": "H"
+    },
+    "Station12": {
+      "Shot1": "A",
+      "Shot2": "D",
+      "Shot3": "A",
+      "Shot4": "D",
+      "Shot5": "A"
+    },
+    "Station13": {
+      "Shot1": "F",
+      "Shot2": "F",
+      "Shot3": "F",
+      "Shot4": "F",
+      "Shot5": "F"
+    },
+    "Station14": {
+      "Shot1": "E",
+      "Shot2": "E",
+      "Shot3": "E",
+      "Shot4": "E",
+      "Shot5": "E"
+    }
+  }
+}
