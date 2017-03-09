@@ -12,10 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tmoon.scs.DAO.FirebaseDAO;
-import com.example.tmoon.scs.Models.ShooterArray;
-import com.example.tmoon.scs.Models.Stations;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
