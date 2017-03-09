@@ -1,8 +1,6 @@
 package com.example.tmoon.scs;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,20 +8,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tmoon.scs.DAO.FirebaseDAO;
+import com.example.tmoon.scs.Models.ShooterArray;
+import com.example.tmoon.scs.Models.Stations;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
@@ -153,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
      * name.
      */
     public void nextShooterButtonPressed(View view){
+        FirebaseDAO fDAO = new FirebaseDAO();
+        fDAO.setRoundReference(Integer.toString(roundNumber));
+
         // Set the total for that shooter
         setShooterTotal();
-
-        // Save the data to the Firebase database
-        // TODO: Possibly dont save every time this is pressed if it slows it down or something
-        saveData();
+        fDAO.updateTotal(shooters.getShooterName(), shooters.getTotalHitNumber());
 
         // Increment the index of the shooter and if it is greater than the number of shooters then
         // go back to the beginning
@@ -169,28 +161,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the hit counter
         hitCounter.setText(shooters.getHitNumber(stations.getStationNumber()));
+        fDAO.updateHits(shooters.getShooterName(),stations.getStationNumberString(),shooters.getHitNumber(stations.getStationNumber()));
 
-
-    }
-    /*
-     * Save the station hits and update the total in the Firebase database.
-     */
-    private void saveData(){
-        try {
-
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("Round " + Integer.toString(roundNumber));
-            myRef.child(shooters.getShooterName())
-                    .child("Station " + stations.getStationNumber())
-                    .child("Hits").setValue(shooters.getHitNumber(stations.getStationNumber()));
-
-            DatabaseReference totalRef = database.getReference("Round " + Integer.toString(roundNumber));
-            myRef.child(shooters.getShooterName()).child("Total").setValue(shooters.getTotalHitNumber());
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
+        // TODO: Remove this once its determine that reading the data works
+        // Testing reading Firebase data
+        fDAO.testReadingData();
     }
 
 

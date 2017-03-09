@@ -1,4 +1,4 @@
-package com.example.tmoon.scs;
+package com.example.tmoon.scs.Models;
 
 /**
  * Created by tmoon on 3/4/17.

@@ -1,4 +1,4 @@
-package com.example.tmoon.scs;
+package com.example.tmoon.scs.Models;
 
 import java.util.Arrays;
 
