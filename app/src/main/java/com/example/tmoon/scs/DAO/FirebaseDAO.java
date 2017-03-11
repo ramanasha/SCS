@@ -1,17 +1,16 @@
 package com.example.tmoon.scs.DAO;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
-import com.example.tmoon.scs.Enums.CourseNames;
-import com.example.tmoon.scs.Models.Station;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by tmoon on 3/9/17.
@@ -19,11 +18,122 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseDAO {
     private FirebaseDatabase firebaseDatabase;
+    //TODO: Take this out
     private String roundReference;
 
     public FirebaseDAO(){
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
+
+
+// Shooter Index
+    public int incrementShooterIndex(String reference, String indexName, int currentValue){
+        int maxAllowed = 0; // Largest allowed value
+        int resetValue = 0; // Value to reset to after the max value is reached
+
+        // Set the maxAllowed and resetValue based on the value being incremented
+        switch(indexName){
+            case "ShooterIndex":
+                maxAllowed = 3;
+                resetValue = 0;
+                break;
+            case "ShotNumber":
+                maxAllowed = 5;
+                resetValue = 1;
+                break;
+            case "StationNumber":
+                maxAllowed = 14;
+                resetValue = 1;
+        }
+
+
+        if(currentValue < maxAllowed){
+             currentValue++;
+        }else{
+            currentValue = resetValue;
+        }
+
+        DatabaseReference isiRef = firebaseDatabase.getReference(reference);
+        isiRef.child(indexName).setValue(currentValue);
+        System.out.println("Setting " + indexName + " to " + currentValue);
+
+        return currentValue;
+    }
+    public int resetValue(String reference, String indexName){
+        // Set the maxAllowed and resetValue based on the value being incremented
+        int value;
+        switch(indexName){
+            case "ShooterIndex":
+                value = 0;
+                break;
+            case "ShotNumber":
+                value = 1;
+                break;
+            case "StationNumber":
+                value = 1;
+                break;
+            default:
+                value = 0;
+        }
+        DatabaseReference isiRef = firebaseDatabase.getReference(reference);
+        isiRef.child(indexName).setValue(value);
+        System.out.println("Resetting " + indexName + " to " + value);
+
+        return value;
+    }
+
+    public void saveAShot(String reference, String shooterName, String id, int result){
+        DatabaseReference shotRef = firebaseDatabase.getReference(reference);
+        shotRef.child(shooterName).child(id).setValue(result);
+    }
+
+    /*
+    * Use a callback listener to handle returning data from an async thread
+    */
+    public void getIndexValue(String reference, final String indexName, @NonNull final SimpleCallback<Integer> finishedCallback){
+        DatabaseReference courseRef = firebaseDatabase.getReference(reference).child(indexName);
+        courseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This will simple call the callback interface SimpleCallback.java
+                try {
+                    finishedCallback.callback(dataSnapshot.getValue(Integer.class));
+                    System.out.println("Returning " + dataSnapshot.getValue(Integer.class) + " " + indexName);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO: Add onCancelled stuff
+            }
+        });
+    }
+    /*
+   * Use a callback listener to handle returning data from an async thread
+   */
+    public void getTotalValue(String reference, final String indexName, @NonNull final SimpleCallback<Integer> finishedCallback){
+        DatabaseReference courseRef = firebaseDatabase.getReference(reference).child(indexName).child("Total");
+        courseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This will simple call the callback interface SimpleCallback.java
+                try {
+                    finishedCallback.callback(dataSnapshot.getValue(Integer.class));
+                    System.out.println("Returning " + dataSnapshot.getValue(Integer.class) + " " + indexName);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO: Add onCancelled stuff
+            }
+        });
+    }
+    //TODO: Below this is just for reference and should be removed
 
     public String getRoundReference() {
         return roundReference;
@@ -52,13 +162,18 @@ public class FirebaseDAO {
     /*
      * Use a callback listener to handle returning data from an async thread
      */
-    public void getCourseData(@NonNull final SimpleCallback<String> finishedCallback){
+    public void getCourseData(@NonNull final SimpleCallback<JSONObject> finishedCallback){
         DatabaseReference courseRef = firebaseDatabase.getReference("Courses");
-        courseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        courseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This will simple call the callback interface SimpleCallback.java
-                finishedCallback.callback(dataSnapshot.toString());
+                // Pass back a JSONObject full of all the courses
+                try {
+                    finishedCallback.callback(new JSONObject(dataSnapshot.toString().substring(38)));
+                }catch(JSONException je){
+                    je.printStackTrace();
+                }
             }
 
             @Override

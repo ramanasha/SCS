@@ -2,11 +2,31 @@
 {
   "RED": {
     "Station1": {
-      "Shot1": "G",
-      "Shot2": "G",
-      "Shot3": "G",
-      "Shot4": "G",
-      "Shot5": "G"
+      "Shot1": {
+        "ID": 11,
+        "Trap": "G",
+        "Type": "Single"
+      },
+      "Shot2": {
+        "ID": 12,
+        "Trap": "G",
+        "Type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 13,
+        "Trap":"G",
+        "Type":"DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 14,
+        "Trap":"G",
+        "Type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 15,
+        "Trap":"G",
+        "Type": "DoubleSecond"
+      }
     },
     "Station2": {},
     "Station3": {
