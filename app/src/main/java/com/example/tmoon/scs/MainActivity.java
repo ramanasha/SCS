@@ -6,7 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.DAO.FirebaseDAO;
@@ -203,7 +205,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    public void toggleTotalTable(View view){
+        TableLayout totalTable = (TableLayout) findViewById(R.id.totalsTable);
+        ToggleButton totalToggle = (ToggleButton) findViewById(R.id.tableToggleButton);
+        System.out.println("totalToggle.isChecked() = " + totalToggle.isChecked());
+        if(totalToggle.isChecked()){
+            totalTable.setVisibility(View.GONE);
+        }else{
+            totalTable.setVisibility(View.VISIBLE);
+        }
+    }
 
     public void nextRoundButtonPressed(MenuItem item){
 
