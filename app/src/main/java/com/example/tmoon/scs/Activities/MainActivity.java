@@ -1,5 +1,6 @@
-package com.example.tmoon.scs;
+package com.example.tmoon.scs.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.widget.ToggleButton;
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.DAO.FirebaseDAO;
 import com.example.tmoon.scs.Models.Shooter;
+import com.example.tmoon.scs.R;
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
@@ -214,6 +216,12 @@ public class MainActivity extends AppCompatActivity {
         }else{
             totalTable.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void statisticsButtonPressed(MenuItem item){
+        // Switch to the statistics activity
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
     }
 
     public void nextRoundButtonPressed(MenuItem item){

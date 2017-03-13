@@ -3,6 +3,7 @@ package com.example.tmoon.scs.DAO;
 import android.support.annotation.NonNull;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -134,6 +135,39 @@ public class FirebaseDAO {
         });
     }
     //TODO: Below this is just for reference and should be removed
+
+    public void getTrap(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<String> finishedCallback){
+        DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("Station"+stationNumber).child("Shot"+shotNumber);
+
+        System.out.println("Querying for " + stationNumber + shotNumber);
+        trapRef.orderByChild("ID").equalTo(stationNumber + shotNumber).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("FOUND IT");
+                finishedCallback.callback(dataSnapshot.toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     public String getRoundReference() {
         return roundReference;
