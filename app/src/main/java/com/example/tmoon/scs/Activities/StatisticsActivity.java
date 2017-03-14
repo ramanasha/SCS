@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.DAO.FirebaseDAO;
 import com.example.tmoon.scs.Enums.Trap;
+import com.example.tmoon.scs.Models.Course;
+import com.example.tmoon.scs.Models.Shot;
+import com.example.tmoon.scs.Models.Station;
 import com.example.tmoon.scs.R;
 
 /**
@@ -42,6 +45,16 @@ public class StatisticsActivity extends AppCompatActivity implements AdapterView
         worstTrap = (TextView) findViewById(R.id.worstTrapTextView);
         averageScore = (TextView) findViewById(R.id.averageScoreTextView);
 
+        FirebaseDAO fDAO = new FirebaseDAO();
+        //TODO: Remove this when testing is complete
+        fDAO.getCourse("This", 1, 1, new SimpleCallback<Course>() {
+            @Override
+            public void callback(Course data) {
+                System.out.println("Printing course data");
+                System.out.println(data.toString());
+                System.out.println(data.calculateBestTrap("122"));
+            }
+        });
     }
 
     @Override
@@ -54,10 +67,10 @@ public class StatisticsActivity extends AppCompatActivity implements AdapterView
         }
 
         FirebaseDAO fDAO = new FirebaseDAO();
-        fDAO.getTrap("doesntmatter", 1, 1, new SimpleCallback<String>() {
+        fDAO.getTrap("doesntmatter", 1, 1, new SimpleCallback<Shot>() {
             @Override
-            public void callback(String data) {
-                worstTrap.setText(data);
+            public void callback(Shot data) {
+                worstTrap.setText(data.getTrap());
             }
         });
 

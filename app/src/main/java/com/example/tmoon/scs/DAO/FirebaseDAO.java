@@ -3,6 +3,9 @@ package com.example.tmoon.scs.DAO;
 import android.support.annotation.NonNull;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
+import com.example.tmoon.scs.Models.Course;
+import com.example.tmoon.scs.Models.Shot;
+import com.example.tmoon.scs.Models.Station;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,6 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tmoon on 3/9/17.
@@ -23,6 +29,7 @@ public class FirebaseDAO {
     private String roundReference;
 
     public FirebaseDAO(){
+        // Initialize the firebase instance
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
@@ -135,31 +142,36 @@ public class FirebaseDAO {
         });
     }
     //TODO: Below this is just for reference and should be removed
+    public void getCourse(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<Course> finishedCallback){
+        DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("RED");
 
-    public void getTrap(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<String> finishedCallback){
-        DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("Station"+stationNumber).child("Shot"+shotNumber);
-
-        System.out.println("Querying for " + stationNumber + shotNumber);
-        trapRef.orderByChild("ID").equalTo(stationNumber + shotNumber).addChildEventListener(new ChildEventListener() {
+        trapRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                System.out.println("FOUND IT");
-                finishedCallback.callback(dataSnapshot.toString());
-            }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Course datashot = " + dataSnapshot.getValue());
+                HashMap<String,Station> stations = new HashMap<String, Station>();
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    // Loop through each of the stations
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    HashMap<String,Shot> shots = new HashMap<String, Shot>();
 
-            }
+                    for(DataSnapshot subChild : child.getChildren()){
+                        // Loop through each of the shots for the station
+                        try {
+                            System.out.println(subChild.toString());
+                            shots.put(subChild.getKey(), subChild.getValue(Shot.class));
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                    }
+                    Station tempStation = new Station(shots);
+                    stations.put(child.getKey(),tempStation);
+                }
+                Course course = new Course(stations);
+                finishedCallback.callback(course);
             }
 
             @Override
@@ -167,6 +179,83 @@ public class FirebaseDAO {
 
             }
         });
+
+    }
+    public void getStation(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<Station> finishedCallback){
+        DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("RED").child("Station1");
+
+        trapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("------- In getStation -------");
+                //   System.out.println("dataSnapshot" + dataSnapshot.toString());
+
+                Station station = new Station();
+                HashMap<String, Shot> shots = new HashMap<String, Shot>();
+                if(dataSnapshot.getValue() != null) {
+                    try {
+                        for(DataSnapshot child : dataSnapshot.getChildren()){
+
+
+
+
+
+                            Shot s = child.getValue(Shot.class);
+
+                            System.out.println("S = " + s.toString());
+
+                            shots.put(child.getKey(),s);
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println(dataSnapshot.toString() + " did not have data :(");
+                }
+                station.setShots(shots);
+                finishedCallback.callback(station);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void getTrap(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<Shot> finishedCallback){
+        DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("RED").child("Station" + stationNumber).child("Shot"+ shotNumber);
+
+        System.out.println("Querying for " + stationNumber+1 + shotNumber);
+        trapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("DATA CHANGE");
+             //   System.out.println("dataSnapshot" + dataSnapshot.toString());
+
+                Shot newShot = new Shot();
+                if(dataSnapshot.getValue() != null) {
+                    try {
+                        newShot = dataSnapshot.getValue(Shot.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println(dataSnapshot.toString() + " did not have data :(");
+                }
+                System.out.println("SHOT: " + newShot.toString());
+
+                finishedCallback.callback(newShot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public String getRoundReference() {

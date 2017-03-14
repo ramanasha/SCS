@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.DAO.FirebaseDAO;
 import com.example.tmoon.scs.Models.Shooter;
+import com.example.tmoon.scs.Models.Station;
 import com.example.tmoon.scs.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: Make this a class variable
         FirebaseDAO fDAO = new FirebaseDAO();
+
+
 
 
         // Update when the shooter index is changed
