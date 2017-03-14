@@ -14,6 +14,7 @@ import com.example.tmoon.scs.Enums.Trap;
 import com.example.tmoon.scs.Models.Course;
 import com.example.tmoon.scs.Models.Shot;
 import com.example.tmoon.scs.Models.Station;
+import com.example.tmoon.scs.Models.StatisticsShooter;
 import com.example.tmoon.scs.R;
 
 /**
@@ -45,35 +46,37 @@ public class StatisticsActivity extends AppCompatActivity implements AdapterView
         worstTrap = (TextView) findViewById(R.id.worstTrapTextView);
         averageScore = (TextView) findViewById(R.id.averageScoreTextView);
 
-        FirebaseDAO fDAO = new FirebaseDAO();
-        //TODO: Remove this when testing is complete
-        fDAO.getCourse("This", 1, 1, new SimpleCallback<Course>() {
-            @Override
-            public void callback(Course data) {
-                System.out.println("Printing course data");
-                System.out.println(data.toString());
-                System.out.println(data.calculateBestTrap("122"));
-            }
-        });
+        final FirebaseDAO fDAO = new FirebaseDAO();
+
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         System.out.println(parent.getSelectedItem().toString());
-        if(bestTrap.getText() == Trap.D.toString()){
-            bestTrap.setText(Trap.A.toString());
-        }else {
-            bestTrap.setText(Trap.D.toString());
-        }
-
-        FirebaseDAO fDAO = new FirebaseDAO();
-        fDAO.getTrap("doesntmatter", 1, 1, new SimpleCallback<Shot>() {
+        final FirebaseDAO fDAO = new FirebaseDAO();
+        //TODO: Remove this when testing is complete
+        //TODO: Remove these hardcoded values
+        fDAO.getShooterScores("3_12_2017", parent.getSelectedItem().toString(), new SimpleCallback<StatisticsShooter>() {
             @Override
-            public void callback(Shot data) {
-                worstTrap.setText(data.getTrap());
+            public void callback(final StatisticsShooter statData) {
+                System.out.println("Printing Shooter Statistics data");
+                System.out.println(statData.toString());
+                //TODO: Remove this when testing is complete
+                fDAO.getCourse("This", 1, 1, new SimpleCallback<Course>() {
+                    @Override
+                    public void callback(Course data) {
+                        System.out.println("Printing course data");
+                        System.out.println(data.toString());
+                        String best = data.calculateBestTrap(statData);
+                        bestTrap.setText(best);
+
+                        String worst = data.calculateWorstTrap(statData);
+                        worstTrap.setText(worst);
+                    }
+                });
             }
         });
-
     }
 
     @Override

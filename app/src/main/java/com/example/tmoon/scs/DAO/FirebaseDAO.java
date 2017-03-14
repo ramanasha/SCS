@@ -6,6 +6,7 @@ import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.Models.Course;
 import com.example.tmoon.scs.Models.Shot;
 import com.example.tmoon.scs.Models.Station;
+import com.example.tmoon.scs.Models.StatisticsShooter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -141,7 +142,6 @@ public class FirebaseDAO {
             }
         });
     }
-    //TODO: Below this is just for reference and should be removed
     public void getCourse(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<Course> finishedCallback){
         DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("RED");
 
@@ -181,6 +181,36 @@ public class FirebaseDAO {
         });
 
     }
+    //TODO: Below this is just for reference and should be removed
+    public void getShooterScores(String reference, String shooterName, @NonNull final SimpleCallback<StatisticsShooter> finishedCallback){
+        DatabaseReference trapRef = firebaseDatabase.getReference(reference).child(shooterName);
+
+        trapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Course datashot = " + dataSnapshot.getValue());
+                HashMap<String,Integer> scores = new HashMap<String, Integer>();
+
+
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    if(!child.getKey().equalsIgnoreCase("Total") &&
+                            !child.getKey().equalsIgnoreCase("CurrentScore") &&
+                            child.getValue(Integer.class).equals(1)) {
+                        scores.put(child.getKey(), child.getValue(Integer.class));
+                    }
+                }
+                StatisticsShooter statisticsShooter = new StatisticsShooter(scores);
+                finishedCallback.callback(statisticsShooter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     public void getStation(String reference, int stationNumber, int shotNumber , @NonNull final SimpleCallback<Station> finishedCallback){
         DatabaseReference trapRef = firebaseDatabase.getReference("Courses").child("RED").child("Station1");
 
