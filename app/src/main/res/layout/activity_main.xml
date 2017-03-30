@@ -50,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/textView"
         android:id="@+id/hitCounterLabel"
-        android:text="Hits:"/>
+        android:text="Shot Number:"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
         android:layout_below="@id/button"
         android:id="@+id/tableToggleButton"
         android:onClick="toggleTotalTable"
-        android:checked="true" />
+        android:checked="false" />
 <!-- Totals Table -->
     <TableLayout
         android:layout_width="match_parent"
@@ -102,7 +102,23 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/totalsTable">
-
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="Name"
+                android:padding="3dip"
+                android:layout_marginRight="100px"/>
+            <TextView
+                android:text="Score"
+                android:padding="3dip"/>
+            <TextView
+                android:text="Total"
+                android:padding="3dip"/>
+            <TextView
+                android:text="%"
+                android:padding="3dip"/>
+        </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -114,7 +130,15 @@
             <TextView
                 android:text="TEST"
                 android:padding="3dip"
+                android:id="@+id/tblShooter1Current"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
                 android:id="@+id/tblShooter1Total"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
+                android:id="@+id/tblShooter1Percent"/>
         </TableRow>
 
         <TableRow
@@ -128,7 +152,15 @@
             <TextView
                 android:text="TEST"
                 android:padding="3dip"
+                android:id="@+id/tblShooter2Current"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
                 android:id="@+id/tblShooter2Total"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
+                android:id="@+id/tblShooter2Percent"/>
         </TableRow>
 
         <TableRow
@@ -142,7 +174,15 @@
             <TextView
                 android:text="TEST"
                 android:padding="3dip"
+                android:id="@+id/tblShooter3Current"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
                 android:id="@+id/tblShooter3Total"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
+                android:id="@+id/tblShooter3Percent"/>
         </TableRow>
 
         <TableRow
@@ -156,7 +196,15 @@
             <TextView
                 android:text="TEST"
                 android:padding="3dip"
+                android:id="@+id/tblShooter4Current"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
                 android:id="@+id/tblShooter4Total"/>
+            <TextView
+                android:text="TEST"
+                android:padding="3dip"
+                android:id="@+id/tblShooter4Percent"/>
         </TableRow>
     </TableLayout>
 <!-- Next Shooter Button -->

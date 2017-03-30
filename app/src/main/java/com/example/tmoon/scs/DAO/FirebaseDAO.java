@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.Models.Course;
+import com.example.tmoon.scs.Models.Shooter;
 import com.example.tmoon.scs.Models.Shot;
 import com.example.tmoon.scs.Models.Station;
 import com.example.tmoon.scs.Models.StatisticsShooter;
@@ -48,7 +49,7 @@ public class FirebaseDAO {
                 break;
             case "ShotNumber":
                 maxAllowed = 10;
-                resetValue = 1;
+                resetValue = 0;
                 break;
             case "StationNumber":
                 maxAllowed = 14;
@@ -122,15 +123,15 @@ public class FirebaseDAO {
     /*
    * Use a callback listener to handle returning data from an async thread
    */
-    public void getTotalValue(String reference, final String indexName, @NonNull final SimpleCallback<Integer> finishedCallback){
-        DatabaseReference courseRef = firebaseDatabase.getReference(reference).child(indexName).child("Total");
+    public void getTotalValue(String reference, final String indexName, @NonNull final SimpleCallback<Shooter> finishedCallback){
+        DatabaseReference courseRef = firebaseDatabase.getReference(reference).child(indexName);
         courseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This will simple call the callback interface SimpleCallback.java
                 try {
-                    finishedCallback.callback(dataSnapshot.getValue(Integer.class));
-                    System.out.println("Returning " + dataSnapshot.getValue(Integer.class) + " " + indexName);
+                    finishedCallback.callback(dataSnapshot.getValue(Shooter.class));
+                    System.out.println("Returning " + dataSnapshot.getValue(Shooter.class) + " " + indexName);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
