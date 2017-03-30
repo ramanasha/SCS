@@ -47,7 +47,7 @@ public class FirebaseDAO {
                 resetValue = 0;
                 break;
             case "ShotNumber":
-                maxAllowed = 5;
+                maxAllowed = 10;
                 resetValue = 1;
                 break;
             case "StationNumber":

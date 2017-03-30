@@ -1,6 +1,9 @@
 package com.example.tmoon.scs.Activities;
 
 import android.content.Intent;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +20,8 @@ import com.example.tmoon.scs.Models.Shooter;
 import com.example.tmoon.scs.Models.Station;
 import com.example.tmoon.scs.R;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
     Shooter[] shooters = new Shooter[4];
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     int shotNumber;
 
     //TODO: Make this actually change instead of being hardcoded
-    final String dateReference = "3_12_2017";
+    String dateReference = "";
 
     TextView shooterName;
     TextView hitCounter;
@@ -36,10 +41,24 @@ public class MainActivity extends AppCompatActivity {
     TextView tblShooter1,tblShooter2, tblShooter3, tblShooter4;
     TextView tblShooter1Total, tblShooter2Total, tblShooter3Total, tblShooter4Total;
 
+    private FirebaseDAO fDAO = new FirebaseDAO();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Setup dateReference to the current date
+        // TODO: Allow for a second or third round
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy");
+        String currentDateAndTime = simpleDateFormat.format(new Date());
+        dateReference = simpleDateFormat.format(new Date());
+        System.out.println("~~~~~ USING REFERENCE " + currentDateAndTime + " ~~~~~~~");
+
+
+        // Counter to see when all the asyncs finish and then refresh the layout with the new values
+        final int asyncCounter = 0;
+
 
         // Set up the shooters array for each shooter
         // TODO: Replace this when the Settings Activity is done
@@ -48,38 +67,32 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Created new shooter " + shooters[i].toString());
         }
 
-
-        //TODO: Make this a class variable
-        FirebaseDAO fDAO = new FirebaseDAO();
-
-
-
-
+        shooterName = (TextView)findViewById(R.id.textView2);
         // Update when the shooter index is changed
         fDAO.getIndexValue(dateReference,"ShooterIndex", new SimpleCallback<Integer>() {
             @Override
             public void callback(Integer data) {
                 // Shooter
-                shooterName = (TextView)findViewById(R.id.textView2);
                 shooterName.setText(shooters[shooterIndex].getName());
             }
         });
 
+        hitCounter = (TextView)findViewById(R.id.hitCounter);
         // Update when the shot number is changed
         fDAO.getIndexValue(dateReference, "ShotNumber", new SimpleCallback<Integer>() {
             @Override
             public void callback(Integer data) {
                 // TODO: Make a shot label
-                hitCounter = (TextView)findViewById(R.id.hitCounter);
+
                 hitCounter.setText(String.valueOf(data));
             }
         });
 
+        stationCounter = (TextView)findViewById(R.id.stationNumber);
         // Update when the station number is changed
         fDAO.getIndexValue(dateReference, "StationNumber", new SimpleCallback<Integer>() {
             @Override
             public void callback(Integer data) {
-                stationCounter = (TextView)findViewById(R.id.stationNumber);
                 stationCounter.setText(String.valueOf(stationNumber));
             }
         });
@@ -92,31 +105,40 @@ public class MainActivity extends AppCompatActivity {
             fDAO.getTotalValue(dateReference, currentShooter.getName(), new SimpleCallback<Integer>() {
                 @Override
                 public void callback(Integer data) {
+                    System.out.println("############ " + data + " ###########");
                     switch(currentShooter.getName()){
                         //TODO: Remove the hardcoded strings
                         case "Tyler":
                             tblShooter1 = (TextView)findViewById(R.id.tblShooter1);
                             tblShooter1.setText(shooters[0].getName());
                             tblShooter1Total = (TextView)findViewById(R.id.tblShooter1Total);
-                            tblShooter1Total.setText(String.valueOf(shooters[0].getScore()));
+                            if(data != null)
+                                shooters[0].setCurrentScore(data);
+                            tblShooter1Total.setText(String.valueOf(data));
                             break;
                         case "Dad":
                             tblShooter2 = (TextView)findViewById(R.id.tblShooter2);
                             tblShooter2.setText(shooters[1].getName());
                             tblShooter2Total = (TextView)findViewById(R.id.tblShooter2Total);
-                            tblShooter2Total.setText(String.valueOf(shooters[1].getScore()));
+                            if(data != null)
+                                shooters[1].setCurrentScore(data);
+                            tblShooter2Total.setText(String.valueOf(data));
                             break;
                         case "Granddad":
                             tblShooter3 = (TextView)findViewById(R.id.tblShooter3);
                             tblShooter3.setText(shooters[2].getName());
                             tblShooter3Total = (TextView)findViewById(R.id.tblShooter3Total);
-                            tblShooter3Total.setText(String.valueOf(shooters[2].getScore()));
+                            if(data != null)
+                                shooters[2].setCurrentScore(data);
+                            tblShooter3Total.setText(String.valueOf(data));
                             break;
                         case "Dalton":
                             tblShooter4 = (TextView)findViewById(R.id.tblShooter4);
                             tblShooter4.setText(shooters[3].getName());
                             tblShooter4Total = (TextView)findViewById(R.id.tblShooter4Total);
-                            tblShooter4Total.setText(String.valueOf(shooters[3].getScore()));
+                            if(data != null)
+                                shooters[3].setCurrentScore(data);
+                            tblShooter4Total.setText(String.valueOf(data));
                             break;
                     }
                 }
@@ -139,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDAO fDAO = new FirebaseDAO();
         shotNumber = fDAO.incrementShooterIndex(dateReference,"ShotNumber",shotNumber);
 
-        int score = shooters[shooterIndex].getScore()+1;
+        int score = shooters[shooterIndex].getCurrentScore()+1;
         shooters[shooterIndex].setCurrentScore(score);
 
         int totalScore = shooters[shooterIndex].getScore()+1;
@@ -168,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
 
         String name = shooters[shooterIndex].getName();
 
+        int totalScore = shooters[shooterIndex].getScore()+1;
+        shooters[shooterIndex].setScore(totalScore);
+
         // Build the id for the shot
         StringBuilder sb = new StringBuilder();
         sb.append(stationNumber);
@@ -179,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Save to the database
         fDAO.saveAShot(dateReference,name,shotID,result);
+        fDAO.saveAShot(dateReference,name,"Total",totalScore);
     }
     /*
      * This method is fired when the Next Stations button is pressed. It increments the station
