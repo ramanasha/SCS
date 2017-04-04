@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     int stationNumber;
     int shotNumber;
 
-    //TODO: Make this actually change instead of being hardcoded
     String dateReference = "";
 
     TextView shooterName;
@@ -247,10 +246,10 @@ public class MainActivity extends AppCompatActivity {
         shotNumber = fDAO.resetValue(dateReference,"ShotNumber");
         shooterIndex = fDAO.resetValue(dateReference,"ShooterIndex");
 
-        for(int i = 0; i < shooters.length; i++){
+       /* for(int i = 0; i < shooters.length; i++){
             shooters[i].setCurrentScore(0);
             fDAO.saveAShot(dateReference,shooters[i].getName(),"CurrentScore",0);
-        }
+        }*/
     }
     /*
      * This method is fired when the Next Shooter button is pressed. It increments the shooter
@@ -318,6 +317,4 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null).show();
     */
     }
-
-
 }
