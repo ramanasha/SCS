@@ -18,6 +18,8 @@ To install simply import the project into Android Studio :)
 
 ## History
 
+April 2017 - Continued development and beta version finish
+
 March 2017 - Begin development and initial field testing
 
 ## Credits
