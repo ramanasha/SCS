@@ -245,11 +245,14 @@ public class MainActivity extends AppCompatActivity {
 
         shotNumber = fDAO.resetValue(dateReference,"ShotNumber");
         shooterIndex = fDAO.resetValue(dateReference,"ShooterIndex");
+    }
 
-       /* for(int i = 0; i < shooters.length; i++){
-            shooters[i].setCurrentScore(0);
-            fDAO.saveAShot(dateReference,shooters[i].getName(),"CurrentScore",0);
-        }*/
+    public void nextStationButtonPressed(View view){
+        FirebaseDAO fDAO = new FirebaseDAO();
+        stationNumber = fDAO.incrementShooterIndex(dateReference,"StationNumber",stationNumber);
+
+        shotNumber = fDAO.resetValue(dateReference,"ShotNumber");
+        shooterIndex = fDAO.resetValue(dateReference,"ShooterIndex");
     }
     /*
      * This method is fired when the Next Shooter button is pressed. It increments the shooter
@@ -283,38 +286,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextRoundButtonPressed(MenuItem item){
-
-        //TODO: Implement the next round button
-       /* new AlertDialog.Builder(this)
-                .setTitle("Confirm")
-                .setMessage("Do you want to go on to the next round?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes,new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(MainActivity.this, "New Round!", Toast.LENGTH_SHORT).show();
-                        roundNumber++;
-                        shooters.setShooterIndex(0);
-                        // TODO: Replace this when the Settings Activity is done
-
-                        shooters.setShooter(0,"Tyler");
-                        shooters.setShooter(1,"Dad");
-                        shooters.setShooter(2,"Granddad");
-                        shooters.setShooter(3,"Dalton");
-
-
-                        tblShooter1Total.setText("0");
-                        tblShooter2Total.setText("0");
-                        tblShooter3Total.setText("0");
-                        tblShooter4Total.setText("0");
-
-
-                        stations.setStationNumber(0);
-
-                        hitCounter.setText("0");
-                        stationCounter.setText("0");
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
-    */
     }
 }

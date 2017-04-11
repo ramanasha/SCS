@@ -207,6 +207,19 @@
                 android:id="@+id/tblShooter4Percent"/>
         </TableRow>
     </TableLayout>
+<!-- Next Station Button -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:id="@+id/nextStationButton"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/nextShooterButton"
+        android:text="Next Station"
+        android:onClick="nextStationButtonPressed"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+
 <!-- Next Shooter Button -->
     <Button
         android:layout_width="match_parent"
