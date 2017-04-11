@@ -1,22 +1,24 @@
 package com.example.tmoon.scs.Models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by tmoon on 3/10/17.
  */
-
+@IgnoreExtraProperties
 public class Shooter {
     private String name;
-    private int score;
+    private int total;
     private int currentScore;
 
     public Shooter() {
         this.name="undefined";
-        this.score = 0;
+        this.total = 0;
     }
 
     public Shooter(String name) {
         this.name = name;
-        this.score = 0;
+        this.total = 0;
     }
 
     public String getName() {
@@ -27,12 +29,12 @@ public class Shooter {
         this.name = name;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotal() {
+        return total;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public int getCurrentScore() {
@@ -47,7 +49,8 @@ public class Shooter {
     public String toString() {
         return "Shooter{" +
                 "name='" + name + '\'' +
-                ", score=" + score +
+                ", total=" + total +
+                ", currentScore=" + currentScore +
                 '}';
     }
 }

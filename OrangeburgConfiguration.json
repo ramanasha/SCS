@@ -4,184 +4,276 @@
     "Station1": {
       "Shot1": {
         "ID": 11,
-        "Trap": "G",
-        "Type": "Single"
+        "trap": "G",
+        "type": "Single"
       },
       "Shot2": {
         "ID": 12,
-        "Trap": "G",
-        "Type": "DoubleFirst"
+        "trap": "G",
+        "type": "DoubleFirst"
       },
       "Shot3": {
         "ID": 13,
-        "Trap":"G",
-        "Type":"DoubleFirst"
+        "trap": "G",
+        "type": "DoubleFirst"
       },
       "Shot4": {
         "ID": 14,
-        "Trap":"G",
-        "Type": "DoubleSecond"
+        "trap": "G",
+        "type": "DoubleSecond"
       },
       "Shot5": {
         "ID": 15,
-        "Trap":"G",
-        "Type": "DoubleSecond"
+        "trap": "G",
+        "type": "DoubleSecond"
       }
     },
     "Station2": {},
     "Station3": {
-      "Shot1": "H",
-      "Shot2": "D",
-      "Shot3": "H",
-      "Shot4": "D",
-      "Shot5": "H"
+      "Shot1": {
+        "ID": 31,
+        "trap": "H",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 32,
+        "trap": "D",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 33,
+        "trap": "H",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 34,
+        "trap": "D",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 35,
+        "trap": "H",
+        "type": "DoubleSecond"
+      }
     },
     "Station4": {},
     "Station5": {
-      "Shot1": "C",
-      "Shot2": "C",
-      "Shot3": "J",
-      "Shot4": "C",
-      "Shot5": "H"
+      "Shot1": {
+        "ID": 51,
+        "trap": "C",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 52,
+        "trap": "C",
+        "type": "PauseFirst"
+      },
+      "Shot3": {
+        "ID": 53,
+        "trap": "J",
+        "type": "PauseFirst"
+      },
+      "Shot4": {
+        "ID": 54,
+        "trap": "C",
+        "type": "PauseSecond"
+      },
+      "Shot5": {
+        "ID": 55,
+        "trap": "H",
+        "type": "PauseSecond"
+      }
     },
     "Station6": {
-      "Shot1": "D",
-      "Shot2": "A",
-      "Shot3": "B",
-      "Shot4": "J",
-      "Shot5": "D"
+      "Shot1": {
+        "ID": 61,
+        "trap": "D",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 62,
+        "trap": "A",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 63,
+        "trap": "B",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 64,
+        "trap": "J",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 65,
+        "trap": "D",
+        "type": "DoubleSecond"
+      }
     },
     "Station7": {
-      "Shot1": "J",
-      "Shot2": "H",
-      "Shot3": "D",
-      "Shot4": "A",
-      "Shot5": "B"
+      "Shot1": {
+        "ID": 71,
+        "trap": "J",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 72,
+        "trap": "H",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 73,
+        "trap": "D",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 74,
+        "trap": "A",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 75,
+        "trap": "B",
+        "type": "DoubleSecond"
+      }
     },
     "Station8": {},
     "Station9": {
-      "Shot1": "H",
-      "Shot2": "J",
-      "Shot3": "D",
-      "Shot4": "A",
-      "Shot5": "J"
+      "Shot1": {
+        "ID": 91,
+        "trap": "H",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 92,
+        "trap": "J",
+        "type": "PauseFirst"
+      },
+      "Shot3": {
+        "ID": 93,
+        "trap": "D",
+        "type": "PauseFirst"
+      },
+      "Shot4": {
+        "ID": 94,
+        "trap": "A",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 95,
+        "trap": "J",
+        "type": "DoubleSecond"
+      }
     },
     "Station10": {
-      "Shot1": "H",
-      "Shot2": "J",
-      "Shot3": "D",
-      "Shot4": "H",
-      "Shot5": "D"
+      "Shot1": {
+        "ID": 101,
+        "trap": "H",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 102,
+        "trap": "J",
+        "type": "PauseFirst"
+      },
+      "Shot3": {
+        "ID": 103,
+        "trap": "D",
+        "type": "PauseFirst"
+      },
+      "Shot4": {
+        "ID": 104,
+        "trap": "H",
+        "type": "PauseSecond"
+      },
+      "Shot5": {
+        "ID": 105,
+        "trap": "D",
+        "type": "PauseSecond"
+      }
     },
     "Station11": {},
     "Station12": {
-      "Shot1": "A",
-      "Shot2": "D",
-      "Shot3": "A",
-      "Shot4": "A",
-      "Shot5": "B"
+      "Shot1": {
+        "ID": 121,
+        "trap": "A",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 122,
+        "trap": "D",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 123,
+        "trap": "A",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 124,
+        "trap": "A",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 125,
+        "trap": "B",
+        "type": "DoubleSecond"
+      }
     },
     "Station13": {
-      "Shot1": "F",
-      "Shot2": "F",
-      "Shot3": "F",
-      "Shot4": "F",
-      "Shot5": "F"
+      "Shot1": {
+        "ID": 131,
+        "trap": "F",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 132,
+        "trap": "F",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 133,
+        "trap": "F",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 134,
+        "trap": "F",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 135,
+        "trap": "E",
+        "type": "DoubleSecond"
+      }
     },
     "Station14": {
-      "Shot1": "E",
-      "Shot2": "E",
-      "Shot3": "E",
-      "Shot4": "E",
-      "Shot5": "E"
-    }
-  },
-  "YELLOW": {
-    "Station1": {},
-    "Station2": {},
-    "Station3": {
-      "Shot1": "D",
-      "Shot2": "D",
-      "Shot3": "H",
-      "Shot4": "D",
-      "Shot5": "H"
-    },
-    "Station4": {
-      "Shot1": "C",
-      "Shot2": "C",
-      "Shot3": "J",
-      "Shot4": "C",
-      "Shot5": "J"
-    },
-    "Station5": {
-      "Shot1": "C",
-      "Shot2": "C",
-      "Shot3": "H",
-      "Shot4": "C",
-      "Shot5": "H"
-    },
-    "Station6": {
-      "Shot1": "J",
-      "Shot2": "J",
-      "Shot3": "H",
-      "Shot4": "J",
-      "Shot5": "H"
-    },
-    "Station7": {
-      "Shot1": "D",
-      "Shot2": "H",
-      "Shot3": "D",
-      "Shot4": "H",
-      "Shot5": "D"
-    },
-    "Station8": {
-      "Shot1": "J",
-      "Shot2": "J",
-      "Shot3": "H",
-      "Shot4": "J",
-      "Shot5": "H"
-    },
-    "Station9": {
-      "Shot1": "H",
-      "Shot2": "J",
-      "Shot3": "D",
-      "Shot4": "A",
-      "Shot5": "J"
-    },
-    "Station10": {
-      "Shot1": "J",
-      "Shot2": "J",
-      "Shot3": "D",
-      "Shot4": "J",
-      "Shot5": "D"
-    },
-    "Station11": {
-      "Shot1": "D",
-      "Shot2": "D",
-      "Shot3": "H",
-      "Shot4": "D",
-      "Shot5": "H"
-    },
-    "Station12": {
-      "Shot1": "A",
-      "Shot2": "D",
-      "Shot3": "A",
-      "Shot4": "D",
-      "Shot5": "A"
-    },
-    "Station13": {
-      "Shot1": "F",
-      "Shot2": "F",
-      "Shot3": "F",
-      "Shot4": "F",
-      "Shot5": "F"
-    },
-    "Station14": {
-      "Shot1": "E",
-      "Shot2": "E",
-      "Shot3": "E",
-      "Shot4": "E",
-      "Shot5": "E"
+      "Shot1": {
+        "ID": 141,
+        "trap": "E",
+        "type": "Single"
+      },
+      "Shot2": {
+        "ID": 142,
+        "trap": "E",
+        "type": "DoubleFirst"
+      },
+      "Shot3": {
+        "ID": 143,
+        "trap": "E",
+        "type": "DoubleFirst"
+      },
+      "Shot4": {
+        "ID": 144,
+        "trap": "E",
+        "type": "DoubleSecond"
+      },
+      "Shot5": {
+        "ID": 145,
+        "trap": "E",
+        "type": "DoubleSecond"
+      }
     }
   }
 }

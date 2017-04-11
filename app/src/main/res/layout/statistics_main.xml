@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Name: "/>
+    <Spinner
+        android:id="@+id/nameSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="25px">
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Best Trap:"/>
+            <TextView
+                android:id="@+id/bestTrapTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A"/>
+        </TableRow>
+        <View
+            android:layout_height="10px"
+            android:layout_width="match_parent"
+            android:background="@color/primary_material_dark_1"
+            android:layout_marginTop="10px"
+            android:layout_marginBottom="10px"/>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Worst Trap:"/>
+            <TextView
+                android:id="@+id/worstTrapTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="G"/>
+        </TableRow>
+        <View
+            android:layout_height="10px"
+            android:layout_width="match_parent"
+            android:background="@color/primary_material_dark_1"
+            android:layout_marginTop="10px"
+            android:layout_marginBottom="10px"/>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Average Score:"/>
+            <TextView
+                android:id="@+id/averageScoreTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="G"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
