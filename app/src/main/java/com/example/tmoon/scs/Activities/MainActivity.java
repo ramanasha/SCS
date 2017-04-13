@@ -55,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
         dateReference = simpleDateFormat.format(new Date());
         System.out.println("~~~~~ USING REFERENCE " + currentDateAndTime + " ~~~~~~~");
 
-
-        // Counter to see when all the asyncs finish and then refresh the layout with the new values
-        final int asyncCounter = 0;
-
-
         // Set up the shooters array for each shooter
         // TODO: Replace this when the Settings Activity is done
         for(int i = 0; i < shooters.length; i++){
@@ -105,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             fDAO.getTotalValue(dateReference, currentShooter.getName(), new SimpleCallback<Shooter>() {
                 @Override
                 public void callback(Shooter data) {
-                    System.out.println("############ " + data + " ###########");
                     switch(currentShooter.getName()){
                         //TODO: Remove the hardcoded strings
                         //TODO: Put each case in a method or something
