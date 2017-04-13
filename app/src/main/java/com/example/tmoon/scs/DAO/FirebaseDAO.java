@@ -98,7 +98,8 @@ public class FirebaseDAO {
     }
 
     /*
-    * Use a callback listener to handle returning data from an async thread
+    * This method returns a integer value for the give n index in the Firebase database.
+    * Uses a callback listener to handle returning data from an async thread
     */
     public void getIndexValue(String reference, final String indexName, @NonNull final SimpleCallback<Integer> finishedCallback){
         DatabaseReference courseRef = firebaseDatabase.getReference(reference).child(indexName);

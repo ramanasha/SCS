@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
         dateReference = simpleDateFormat.format(new Date());
         System.out.println("~~~~~ USING REFERENCE " + currentDateAndTime + " ~~~~~~~");
 
-
-        // Counter to see when all the asyncs finish and then refresh the layout with the new values
-        final int asyncCounter = 0;
-
-
         // Set up the shooters array for each shooter
         // TODO: Replace this when the Settings Activity is done
         for(int i = 0; i < shooters.length; i++){
@@ -105,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             fDAO.getTotalValue(dateReference, currentShooter.getName(), new SimpleCallback<Shooter>() {
                 @Override
                 public void callback(Shooter data) {
-                    System.out.println("############ " + data + " ###########");
                     switch(currentShooter.getName()){
                         //TODO: Remove the hardcoded strings
                         //TODO: Put each case in a method or something
@@ -212,6 +208,9 @@ public class MainActivity extends AppCompatActivity {
         fDAO.saveAShot(dateReference,name,shotID,result);
         fDAO.saveAShot(dateReference,name,"total",totalScore);
         fDAO.saveAShot(dateReference,name,"currentScore",score);
+
+        // Vibrator
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
     public void shooterMissPressed(View view){
         FirebaseDAO fDAO = new FirebaseDAO();
@@ -234,7 +233,74 @@ public class MainActivity extends AppCompatActivity {
         // Save to the database
         fDAO.saveAShot(dateReference,name,shotID,result);
         fDAO.saveAShot(dateReference,name,"total",totalScore);
+        // Vibrator
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event){
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    FirebaseDAO fDAO = new FirebaseDAO();
+                    shotNumber = fDAO.incrementShooterIndex(dateReference,"ShotNumber",shotNumber);
+
+                    int score = shooters[shooterIndex].getCurrentScore()+1;
+                    shooters[shooterIndex].setCurrentScore(score);
+
+                    int totalScore = shooters[shooterIndex].getTotal()+1;
+                    shooters[shooterIndex].setTotal(totalScore);
+
+                    // Save the score
+                    String name = shooters[shooterIndex].getName();
+
+                    // Build the id for the shot
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(stationNumber);
+                    sb.append(shotNumber);
+
+                    String shotID = sb.toString();
+
+                    int result = 1;
+
+                    // Save to the database
+                    fDAO.saveAShot(dateReference,name,shotID,result);
+                    fDAO.saveAShot(dateReference,name,"total",totalScore);
+                    fDAO.saveAShot(dateReference,name,"currentScore",score);
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    FirebaseDAO fDAO = new FirebaseDAO();
+                    shotNumber = fDAO.incrementShooterIndex(dateReference,"ShotNumber",shotNumber);
+
+                    String name = shooters[shooterIndex].getName();
+
+                    int totalScore = shooters[shooterIndex].getTotal()+1;
+                    shooters[shooterIndex].setTotal(totalScore);
+
+                    // Build the id for the shot
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(stationNumber);
+                    sb.append(shotNumber);
+
+                    String shotID = sb.toString();
+
+                    int result = 0;
+
+                    // Save to the database
+                    fDAO.saveAShot(dateReference,name,shotID,result);
+                    fDAO.saveAShot(dateReference,name,"total",totalScore);
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
+
+
     /*
      * This method is fired when the Next Stations button is pressed. It increments the station
      * counter and updates the text fields
@@ -245,11 +311,14 @@ public class MainActivity extends AppCompatActivity {
 
         shotNumber = fDAO.resetValue(dateReference,"ShotNumber");
         shooterIndex = fDAO.resetValue(dateReference,"ShooterIndex");
+    }
 
-       /* for(int i = 0; i < shooters.length; i++){
-            shooters[i].setCurrentScore(0);
-            fDAO.saveAShot(dateReference,shooters[i].getName(),"CurrentScore",0);
-        }*/
+    public void nextStationButtonPressed(View view){
+        FirebaseDAO fDAO = new FirebaseDAO();
+        stationNumber = fDAO.incrementShooterIndex(dateReference,"StationNumber",stationNumber);
+
+        shotNumber = fDAO.resetValue(dateReference,"ShotNumber");
+        shooterIndex = fDAO.resetValue(dateReference,"ShooterIndex");
     }
     /*
      * This method is fired when the Next Shooter button is pressed. It increments the shooter
@@ -283,38 +352,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextRoundButtonPressed(MenuItem item){
-
-        //TODO: Implement the next round button
-       /* new AlertDialog.Builder(this)
-                .setTitle("Confirm")
-                .setMessage("Do you want to go on to the next round?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes,new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(MainActivity.this, "New Round!", Toast.LENGTH_SHORT).show();
-                        roundNumber++;
-                        shooters.setShooterIndex(0);
-                        // TODO: Replace this when the Settings Activity is done
-
-                        shooters.setShooter(0,"Tyler");
-                        shooters.setShooter(1,"Dad");
-                        shooters.setShooter(2,"Granddad");
-                        shooters.setShooter(3,"Dalton");
-
-
-                        tblShooter1Total.setText("0");
-                        tblShooter2Total.setText("0");
-                        tblShooter3Total.setText("0");
-                        tblShooter4Total.setText("0");
-
-
-                        stations.setStationNumber(0);
-
-                        hitCounter.setText("0");
-                        stationCounter.setText("0");
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
-    */
     }
 }
