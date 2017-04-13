@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -206,6 +207,9 @@ public class MainActivity extends AppCompatActivity {
         fDAO.saveAShot(dateReference,name,shotID,result);
         fDAO.saveAShot(dateReference,name,"total",totalScore);
         fDAO.saveAShot(dateReference,name,"currentScore",score);
+
+        // Vibrator
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
     public void shooterMissPressed(View view){
         FirebaseDAO fDAO = new FirebaseDAO();
@@ -228,7 +232,10 @@ public class MainActivity extends AppCompatActivity {
         // Save to the database
         fDAO.saveAShot(dateReference,name,shotID,result);
         fDAO.saveAShot(dateReference,name,"total",totalScore);
+        // Vibrator
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
+
     /*
      * This method is fired when the Next Stations button is pressed. It increments the station
      * counter and updates the text fields
