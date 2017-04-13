@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.Models.Course;
+import com.example.tmoon.scs.Models.Score;
 import com.example.tmoon.scs.Models.Shooter;
 import com.example.tmoon.scs.Models.Shot;
 import com.example.tmoon.scs.Models.Station;
@@ -18,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,14 +30,71 @@ import java.util.Map;
 
 public class FirebaseDAO {
     private FirebaseDatabase firebaseDatabase;
-    //TODO: Take this out
     private String roundReference;
 
     public FirebaseDAO(){
         // Initialize the firebase instance
         firebaseDatabase = FirebaseDatabase.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy");
+        String currentDateAndTime = simpleDateFormat.format(new Date());
+        roundReference = simpleDateFormat.format(new Date());
     }
 
+
+    /*
+
+    TESTING STUFF
+
+     */
+
+    public boolean updateShooter(Shooter shooter){
+        DatabaseReference shooterRef = firebaseDatabase.getReference(roundReference);
+        try {
+            shooterRef.child(shooter.getName()).setValue(shooter);
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public void updateScore(Score score){
+        DatabaseReference scoreRef = firebaseDatabase.getReference(roundReference);
+        try{
+            scoreRef.child(String.valueOf(score.getId())).setValue(score);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void getShooter(Shooter shooter, @NonNull final SimpleCallback<Shooter> finishedCallback){
+        DatabaseReference courseRef = firebaseDatabase.getReference(roundReference).child(shooter.getName());
+        courseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This will simple call the callback interface SimpleCallback.java
+                try {
+                    finishedCallback.callback(dataSnapshot.getValue(Shooter.class));
+                    System.out.println("Returning " + dataSnapshot.getValue(Shooter.class));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO: Add onCancelled stuff
+            }
+        });
+    }
+
+
+
+    /*
+
+    END TESTING STUFF
+
+     */
 
 // Shooter Index
     public int incrementShooterIndex(String reference, String indexName, int currentValue){

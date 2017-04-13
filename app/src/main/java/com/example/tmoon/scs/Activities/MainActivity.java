@@ -1,7 +1,6 @@
 package com.example.tmoon.scs.Activities;
 
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
@@ -16,12 +15,14 @@ import android.widget.ToggleButton;
 
 import com.example.tmoon.scs.CallbackInterfaces.SimpleCallback;
 import com.example.tmoon.scs.DAO.FirebaseDAO;
+import com.example.tmoon.scs.Models.Score;
 import com.example.tmoon.scs.Models.Shooter;
 import com.example.tmoon.scs.R;
 
-import org.w3c.dom.Text;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Replace this when the Settings Activity is done
@@ -50,6 +51,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
+        /*
+
+        TESTING STUFF
+
+         */
+        for(int i = 0; i < shooters.length; i++){
+            fDAO.getShooter(new Shooter(shooterNames[i]), new SimpleCallback<Shooter>() {
+                @Override
+                public void callback(Shooter data) {
+                    // Shooter
+                    if(data != null && data != new Shooter())
+                        System.out.println(data.toString());
+                }
+            });
+        }
+
+
+
+
+        /*
+
+        END TESTING STUFF
+
+         */
+
+
         // Setup dateReference to the current date
         // TODO: Allow for a second or third round
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy");
@@ -60,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
         // Set up the shooters array for each shooter
         // TODO: Replace this when the Settings Activity is done
         for(int i = 0; i < shooters.length; i++){
-            shooters[i] = new Shooter(shooterNames[i]);
-            System.out.println("Created new shooter " + shooters[i].toString());
+            Shooter tempShooter = new Shooter(shooterNames[i]);
+            shooters[i] = tempShooter; // Used for local reference and updating the database
+            fDAO.updateShooter(tempShooter);
+            System.out.println("Created new shooter " + tempShooter.toString());
         }
 
         shooterName = (TextView)findViewById(R.id.textView2);
@@ -96,73 +128,73 @@ public class MainActivity extends AppCompatActivity {
 
         // Total table information
         // TODO: Figure out how to not hardcode these
-        for(int i = 0; i < shooters.length; i++){
+        for(int i = 0; i < shooters.length; i++) {
             // Update when the station number is changed
             final Shooter currentShooter = shooters[i];
             fDAO.getTotalValue(dateReference, currentShooter.getName(), new SimpleCallback<Shooter>() {
                 @Override
                 public void callback(Shooter data) {
-                    switch(currentShooter.getName()){
+                    switch (currentShooter.getName()) {
                         //TODO: Remove the hardcoded strings
                         //TODO: Put each case in a method or something
                         case "Tyler":
-                            tblShooter1 = (TextView)findViewById(R.id.tblShooter1);
+                            tblShooter1 = (TextView) findViewById(R.id.tblShooter1);
                             tblShooter1.setText(shooters[0].getName());
                             tblShooter1Current = (TextView) findViewById(R.id.tblShooter1Current);
-                            tblShooter1Total = (TextView)findViewById(R.id.tblShooter1Total);
+                            tblShooter1Total = (TextView) findViewById(R.id.tblShooter1Total);
                             tblShooter1Percent = (TextView) findViewById(R.id.tblShooter1Percent);
-                            if(data != null){
+                            if (data != null) {
                                 shooters[0].setCurrentScore(data.getCurrentScore());
-                                shooters[0].setTotal(data.getTotal());
-                                tblShooter1Total.setText(String.valueOf(data.getTotal()));
+                                shooters[0].setShotsTaken(data.getShotsTaken());
+                                tblShooter1Total.setText(String.valueOf(data.getShotsTaken()));
                                 tblShooter1Current.setText(String.valueOf(data.getCurrentScore()));
-                                double percent = ((double)data.getCurrentScore() / (double)data.getTotal())*100.0;
-                                tblShooter1Percent.setText(String.format("%.2f",percent));
+                                double percent = ((double) data.getCurrentScore() / (double) data.getShotsTaken()) * 100.0;
+                                tblShooter1Percent.setText(String.format("%.2f", percent));
                             }
                             break;
                         case "Dad":
-                            tblShooter2 = (TextView)findViewById(R.id.tblShooter2);
+                            tblShooter2 = (TextView) findViewById(R.id.tblShooter2);
                             tblShooter2.setText(shooters[1].getName());
                             tblShooter2Current = (TextView) findViewById(R.id.tblShooter2Current);
-                            tblShooter2Total = (TextView)findViewById(R.id.tblShooter2Total);
+                            tblShooter2Total = (TextView) findViewById(R.id.tblShooter2Total);
                             tblShooter2Percent = (TextView) findViewById(R.id.tblShooter2Percent);
-                            if(data != null){
+                            if (data != null) {
                                 shooters[1].setCurrentScore(data.getCurrentScore());
-                                shooters[1].setTotal(data.getTotal());
-                                tblShooter2Total.setText(String.valueOf(data.getTotal()));
+                                shooters[1].setShotsTaken(data.getShotsTaken());
+                                tblShooter2Total.setText(String.valueOf(data.getShotsTaken()));
                                 tblShooter2Current.setText(String.valueOf(data.getCurrentScore()));
-                                double percent = ((double)data.getCurrentScore() / (double)data.getTotal())*100.0;
-                                tblShooter2Percent.setText(String.format("%.2f",percent));
+                                double percent = ((double) data.getCurrentScore() / (double) data.getShotsTaken()) * 100.0;
+                                tblShooter2Percent.setText(String.format("%.2f", percent));
                             }
                             break;
                         case "Granddad":
-                            tblShooter3 = (TextView)findViewById(R.id.tblShooter3);
+                            tblShooter3 = (TextView) findViewById(R.id.tblShooter3);
                             tblShooter3.setText(shooters[2].getName());
                             tblShooter3Current = (TextView) findViewById(R.id.tblShooter3Current);
-                            tblShooter3Total = (TextView)findViewById(R.id.tblShooter3Total);
+                            tblShooter3Total = (TextView) findViewById(R.id.tblShooter3Total);
                             tblShooter3Percent = (TextView) findViewById(R.id.tblShooter3Percent);
-                            if(data != null){
+                            if (data != null) {
                                 shooters[2].setCurrentScore(data.getCurrentScore());
-                                shooters[2].setTotal(data.getTotal());
-                                tblShooter3Total.setText(String.valueOf(data.getTotal()));
+                                shooters[2].setShotsTaken(data.getShotsTaken());
+                                tblShooter3Total.setText(String.valueOf(data.getShotsTaken()));
                                 tblShooter3Current.setText(String.valueOf(data.getCurrentScore()));
-                                double percent = ((double)data.getCurrentScore() / (double)data.getTotal())*100.0;
-                                tblShooter3Percent.setText(String.format("%.2f",percent));
+                                double percent = ((double) data.getCurrentScore() / (double) data.getShotsTaken()) * 100.0;
+                                tblShooter3Percent.setText(String.format("%.2f", percent));
                             }
                             break;
                         case "Dalton":
-                            tblShooter4 = (TextView)findViewById(R.id.tblShooter4);
+                            tblShooter4 = (TextView) findViewById(R.id.tblShooter4);
                             tblShooter4.setText(shooters[3].getName());
                             tblShooter4Current = (TextView) findViewById(R.id.tblShooter4Current);
-                            tblShooter4Total = (TextView)findViewById(R.id.tblShooter4Total);
+                            tblShooter4Total = (TextView) findViewById(R.id.tblShooter4Total);
                             tblShooter4Percent = (TextView) findViewById(R.id.tblShooter4Percent);
-                            if(data != null){
+                            if (data != null) {
                                 shooters[3].setCurrentScore(data.getCurrentScore());
-                                shooters[3].setTotal(data.getTotal());
-                                tblShooter4Total.setText(String.valueOf(data.getTotal()));
+                                shooters[3].setShotsTaken(data.getShotsTaken());
+                                tblShooter4Total.setText(String.valueOf(data.getShotsTaken()));
                                 tblShooter4Current.setText(String.valueOf(data.getCurrentScore()));
-                                double percent = ((double)data.getCurrentScore() / (double)data.getTotal())*100.0;
-                                tblShooter4Percent.setText(String.format("%.2f",percent));
+                                double percent = ((double) data.getCurrentScore() / (double) data.getShotsTaken()) * 100.0;
+                                tblShooter4Percent.setText(String.format("%.2f", percent));
                             }
                             break;
                     }
@@ -189,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         int score = shooters[shooterIndex].getCurrentScore()+1;
         shooters[shooterIndex].setCurrentScore(score);
 
-        int totalScore = shooters[shooterIndex].getTotal()+1;
-        shooters[shooterIndex].setTotal(totalScore);
+        int totalScore = shooters[shooterIndex].getShotsTaken()+1;
+        shooters[shooterIndex].setShotsTaken(totalScore);
 
         // Save the score
         String name = shooters[shooterIndex].getName();
@@ -218,8 +250,8 @@ public class MainActivity extends AppCompatActivity {
 
         String name = shooters[shooterIndex].getName();
 
-        int totalScore = shooters[shooterIndex].getTotal()+1;
-        shooters[shooterIndex].setTotal(totalScore);
+        int totalScore = shooters[shooterIndex].getShotsTaken()+1;
+        shooters[shooterIndex].setShotsTaken(totalScore);
 
         // Build the id for the shot
         StringBuilder sb = new StringBuilder();
@@ -250,8 +282,8 @@ public class MainActivity extends AppCompatActivity {
                     int score = shooters[shooterIndex].getCurrentScore()+1;
                     shooters[shooterIndex].setCurrentScore(score);
 
-                    int totalScore = shooters[shooterIndex].getTotal()+1;
-                    shooters[shooterIndex].setTotal(totalScore);
+                    int totalScore = shooters[shooterIndex].getShotsTaken()+1;
+                    shooters[shooterIndex].setShotsTaken(totalScore);
 
                     // Save the score
                     String name = shooters[shooterIndex].getName();
@@ -278,8 +310,8 @@ public class MainActivity extends AppCompatActivity {
 
                     String name = shooters[shooterIndex].getName();
 
-                    int totalScore = shooters[shooterIndex].getTotal()+1;
-                    shooters[shooterIndex].setTotal(totalScore);
+                    int totalScore = shooters[shooterIndex].getShotsTaken()+1;
+                    shooters[shooterIndex].setShotsTaken(totalScore);
 
                     // Build the id for the shot
                     StringBuilder sb = new StringBuilder();
