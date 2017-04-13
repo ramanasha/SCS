@@ -5,6 +5,7 @@ import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -235,6 +236,70 @@ public class MainActivity extends AppCompatActivity {
         // Vibrator
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event){
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    FirebaseDAO fDAO = new FirebaseDAO();
+                    shotNumber = fDAO.incrementShooterIndex(dateReference,"ShotNumber",shotNumber);
+
+                    int score = shooters[shooterIndex].getCurrentScore()+1;
+                    shooters[shooterIndex].setCurrentScore(score);
+
+                    int totalScore = shooters[shooterIndex].getTotal()+1;
+                    shooters[shooterIndex].setTotal(totalScore);
+
+                    // Save the score
+                    String name = shooters[shooterIndex].getName();
+
+                    // Build the id for the shot
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(stationNumber);
+                    sb.append(shotNumber);
+
+                    String shotID = sb.toString();
+
+                    int result = 1;
+
+                    // Save to the database
+                    fDAO.saveAShot(dateReference,name,shotID,result);
+                    fDAO.saveAShot(dateReference,name,"total",totalScore);
+                    fDAO.saveAShot(dateReference,name,"currentScore",score);
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    FirebaseDAO fDAO = new FirebaseDAO();
+                    shotNumber = fDAO.incrementShooterIndex(dateReference,"ShotNumber",shotNumber);
+
+                    String name = shooters[shooterIndex].getName();
+
+                    int totalScore = shooters[shooterIndex].getTotal()+1;
+                    shooters[shooterIndex].setTotal(totalScore);
+
+                    // Build the id for the shot
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(stationNumber);
+                    sb.append(shotNumber);
+
+                    String shotID = sb.toString();
+
+                    int result = 0;
+
+                    // Save to the database
+                    fDAO.saveAShot(dateReference,name,shotID,result);
+                    fDAO.saveAShot(dateReference,name,"total",totalScore);
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
+
 
     /*
      * This method is fired when the Next Stations button is pressed. It increments the station
